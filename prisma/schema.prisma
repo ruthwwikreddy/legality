@@ -1,0 +1,274 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String             @id @default(cuid())
+  email           String             @unique
+  passwordHash    String
+  role            String             @default("CLIENT") // ADMIN, EMPLOYEE, CLIENT
+  fullName        String
+  phone           String?
+  isActive        Boolean            @default(true)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  clientProfile   ClientProfile?
+  employeeProfile EmployeeProfile?
+
+  clientRequests     ServiceRequest[]    @relation("ClientRequests")
+  assignedRequests   RequestAssignment[]
+  updatesCreated     RequestUpdate[]
+  internalNotes      InternalNote[]
+  documentsUploaded  Document[]
+  activityLogs       ActivityLog[]
+  notifications      Notification[]
+  complianceRecords  ComplianceRecord[]
+}
+
+model ClientProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationName String?
+  businessType     String?
+  address          String?
+  taxId            String?
+  industry         String?
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model EmployeeProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  designation      String   @default("Legal Associate")
+  department       String   @default("General Legal Practice")
+  barCouncilNumber String?
+  phone            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model ServiceRequest {
+  id                  String             @id @default(cuid())
+  trackingNumber      String             @unique
+  clientId            String
+  client              User               @relation("ClientRequests", fields: [clientId], references: [id])
+  category            String             // MOU_AGREEMENTS, LEGAL_DOCUMENTATION, PERMISSIONS_APPROVALS, LEGAL_COMPLIANCE
+  title               String
+  description         String
+  priority            String             @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
+  status              String             @default("SUBMITTED") // SUBMITTED, UNDER_REVIEW, IN_PROGRESS, AWAITING_CLIENT_INFO, AWAITING_APPROVAL, COMPLETED, REJECTED
+  dynamicData         String?            // JSON string for service-specific fields
+  estimatedCompletion DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  assignments         RequestAssignment[]
+  updates             RequestUpdate[]
+  internalNotes       InternalNote[]
+  documents           Document[]
+  complianceRecords   ComplianceRecord[]
+}
+
+model RequestAssignment {
+  id         String         @id @default(cuid())
+  requestId  String
+  request    ServiceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  employeeId String
+  employee   User           @relation(fields: [employeeId], references: [id])
+  role       String         @default("PRIMARY_COUNSEL")
+  assignedAt DateTime       @default(now())
+
+  @@unique([requestId, employeeId])
+}
+
+model RequestUpdate {
+  id               String         @id @default(cuid())
+  requestId        String
+  request          ServiceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  authorId         String
+  author           User           @relation(fields: [authorId], references: [id])
+  status           String?
+  message          String
+  isPublicToClient Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+}
+
+model InternalNote {
+  id        String         @id @default(cuid())
+  requestId String
+  request   ServiceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User           @relation(fields: [authorId], references: [id])
+  content   String
+  createdAt DateTime       @default(now())
+}
+
+model Document {
+  id              String           @id @default(cuid())
+  title           String
+  fileName        String
+  fileType        String
+  fileSize        Int
+  filePath        String
+  category        String           @default("CLIENT_UPLOAD") // CLIENT_UPLOAD, LEGAL_DRAFT, FINAL_EXECUTED, APPROVAL_PERMIT, COMPLIANCE_FILING
+  isClientVisible Boolean          @default(true)
+  clientId        String?
+  requestId       String?
+  request         ServiceRequest?  @relation(fields: [requestId], references: [id], onDelete: SetNull)
+  uploadedById    String
+  uploadedBy      User             @relation(fields: [uploadedById], references: [id])
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  versions        DocumentVersion[]
+}
+
+model DocumentVersion {
+  id            String   @id @default(cuid())
+  documentId    String
+  document      Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  versionNumber Int
+  fileName      String
+  filePath      String
+  fileSize      Int
+  changeLog     String?
+  uploadedAt    DateTime @default(now())
+}
+
+model AgreementTemplate {
+  id             String      @id @default(cuid())
+  title          String
+  category       String
+  description    String
+  defaultContent String
+  isActive       Boolean     @default(true)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  agreements     Agreement[]
+}
+
+model Agreement {
+  id               String               @id @default(cuid())
+  trackingNumber   String               @unique
+  templateId       String?
+  template         AgreementTemplate?   @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  title            String
+  category         String
+  status           String               @default("DRAFT") // DRAFT, SENT_FOR_REVIEW, AWAITING_SIGNATURES, PARTIALLY_SIGNED, FULLY_SIGNED, COMPLETED, CANCELLED
+  content          String
+  effectiveDate    DateTime?
+  expiryDate       DateTime?
+  secureShareToken String               @unique
+  pdfPath          String?
+  pdfHash          String?
+  createdById      String
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  parties          AgreementParty[]
+  signatures       AgreementSignature[]
+}
+
+model AgreementParty {
+  id           String              @id @default(cuid())
+  agreementId  String
+  agreement    Agreement           @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  phone        String?
+  organization String?
+  designation  String?
+  role         String              @default("Signatory")
+  partyOrder   Int                 @default(1)
+  viewToken    String              @unique
+  accessCode   String?
+  openedAt     DateTime?
+  reviewedAt   DateTime?
+  status       String              @default("PENDING") // PENDING, VIEWED, REVIEWED, SIGNED, DECLINED
+
+  signature    AgreementSignature?
+}
+
+model AgreementSignature {
+  id                     String         @id @default(cuid())
+  agreementId            String
+  agreement              Agreement      @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  partyId                String         @unique
+  party                  AgreementParty @relation(fields: [partyId], references: [id], onDelete: Cascade)
+  signatureType          String         // DIGITAL_DRAW, TYPED_LEGAL, ESIGN_AADHAAR_MOCK
+  signatureData          String
+  signerName             String
+  signerEmail            String
+  ipAddress              String?
+  userAgent              String?
+  legalConsentStatement  String
+  checksum               String
+  signedAt               DateTime       @default(now())
+}
+
+model ComplianceRecord {
+  id             String           @id @default(cuid())
+  trackingNumber String           @unique
+  clientId       String
+  client         User             @relation(fields: [clientId], references: [id])
+  requestId      String?
+  request        ServiceRequest?  @relation(fields: [requestId], references: [id], onDelete: SetNull)
+  title          String
+  category       String
+  authority      String
+  deadline       DateTime
+  status         String           @default("PENDING") // PENDING, IN_PROGRESS, UNDER_REVIEW, COMPLIED, OVERDUE
+  assignedToId   String?
+  notes          String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  tasks          ComplianceTask[]
+}
+
+model ComplianceTask {
+  id          String           @id @default(cuid())
+  recordId    String
+  record      ComplianceRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  isCompleted Boolean          @default(false)
+  dueDate     DateTime?
+  completedAt DateTime?
+  createdAt   DateTime         @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String
+  link      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String?
+  details    String?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+}
