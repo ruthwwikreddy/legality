@@ -28,7 +28,7 @@ export default async function ClientPortalLayout({
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
-        <header className="h-16 bg-white border-b border-neutral-200 px-6 flex items-center justify-between sticky top-0 z-20">
+        <header className="h-16 bg-white border-b border-neutral-200 pl-14 pr-4 md:px-6 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
               Client Portal

@@ -46,16 +46,16 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-neutral-600">
-          <Link href="/#services" className="hover:text-neutral-950 transition-colors">
+          <Link href="/services" className="hover:text-neutral-950 transition-colors">
             Our Services
           </Link>
-          <Link href="/#how-it-works" className="hover:text-neutral-950 transition-colors">
+          <Link href="/how-it-works" className="hover:text-neutral-950 transition-colors">
             How It Works
           </Link>
-          <Link href="/#about" className="hover:text-neutral-950 transition-colors">
+          <Link href="/about" className="hover:text-neutral-950 transition-colors">
             About LEGALITY
           </Link>
-          <Link href="/#contact" className="hover:text-neutral-950 transition-colors">
+          <Link href="/contact" className="hover:text-neutral-950 transition-colors">
             Contact
           </Link>
         </nav>
@@ -111,25 +111,32 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-neutral-200 bg-white px-4 pt-3 pb-6 space-y-3">
           <Link
-            href="/#services"
+            href="/services"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm font-medium text-neutral-700 hover:text-neutral-950 py-1"
           >
             Our Services
           </Link>
           <Link
-            href="/#how-it-works"
+            href="/how-it-works"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm font-medium text-neutral-700 hover:text-neutral-950 py-1"
           >
             How It Works
           </Link>
           <Link
-            href="/#about"
+            href="/about"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm font-medium text-neutral-700 hover:text-neutral-950 py-1"
           >
             About LEGALITY
+          </Link>
+          <Link
+            href="/contact"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-sm font-medium text-neutral-700 hover:text-neutral-950 py-1"
+          >
+            Contact
           </Link>
           <div className="pt-3 border-t border-neutral-100 flex flex-col gap-2">
             {currentUser ? (

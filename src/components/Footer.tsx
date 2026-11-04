@@ -51,22 +51,32 @@ export default function Footer() {
           {/* Platform */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900 mb-3">
-              Platform
+              Platform & Company
             </h4>
             <ul className="space-y-2 text-xs text-neutral-600">
               <li>
-                <Link href="/portal" className="hover:text-neutral-950">
-                  Client Dashboard
+                <Link href="/services" className="hover:text-neutral-950">
+                  Our Services
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-neutral-950">
-                  Administrative Console
+                <Link href="/how-it-works" className="hover:text-neutral-950">
+                  How It Works
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-neutral-950">
+                  About LEGALITY
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-neutral-950">
+                  Contact Advisory Desk
                 </Link>
               </li>
               <li>
                 <Link href="/login" className="hover:text-neutral-950">
-                  Sign In
+                  Client Portal Login
                 </Link>
               </li>
               <li>
