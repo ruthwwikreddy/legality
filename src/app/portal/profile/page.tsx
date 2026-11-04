@@ -1,5 +1,7 @@
 import { getCurrentUser } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
 import { User, Building, Mail, Phone, FileBadge } from 'lucide-react';
 
 export default async function ClientProfilePage() {
