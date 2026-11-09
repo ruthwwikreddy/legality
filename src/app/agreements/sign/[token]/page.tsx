@@ -34,6 +34,9 @@ export default function AgreementSignPage() {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [showSignModal, setShowSignModal] = useState(false);
+  const [showRevisionModal, setShowRevisionModal] = useState(false);
+  const [revisionNotes, setRevisionNotes] = useState('');
+  const [submittingRevision, setSubmittingRevision] = useState(false);
   const [signatureData, setSignatureData] = useState<{
     type: string;
     data: string;
@@ -131,6 +134,37 @@ export default function AgreementSignPage() {
       setError('Failed to record signature');
     } finally {
       setSigning(false);
+    }
+  };
+
+  const handleRequestRevision = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!verifiedParty || !revisionNotes.trim()) return;
+
+    setSubmittingRevision(true);
+    setError('');
+    try {
+      const res = await fetch(`/api/agreements/sign/${token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          partyId: verifiedParty.id,
+          notes: revisionNotes.trim(),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Failed to submit revision request');
+      } else {
+        setShowRevisionModal(false);
+        setSuccessMsg('Your revision request and amendment notes have been sent to legal counsel.');
+        fetchAgreement();
+      }
+    } catch {
+      setError('Network error while requesting revisions');
+    } finally {
+      setSubmittingRevision(false);
     }
   };
 
@@ -321,13 +355,22 @@ export default function AgreementSignPage() {
                     <span>Signed by You</span>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => setShowSignModal(true)}
-                    className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-neutral-900 text-white text-xs font-bold hover:bg-neutral-800 transition shadow-sm"
-                  >
-                    <Stamp className="w-4 h-4 text-amber-400" />
-                    <span>Sign Agreement</span>
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setShowRevisionModal(true)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-neutral-300 hover:border-neutral-900 text-xs font-semibold text-neutral-700 transition"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Request Revisions</span>
+                    </button>
+                    <button
+                      onClick={() => setShowSignModal(true)}
+                      className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-neutral-900 text-white text-xs font-bold hover:bg-neutral-800 transition shadow-sm"
+                    >
+                      <Stamp className="w-4 h-4 text-amber-400" />
+                      <span>Sign Agreement</span>
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -487,6 +530,64 @@ export default function AgreementSignPage() {
                 <span>{signing ? 'Recording Signature...' : 'Adopt Signature & Execute'}</span>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Revision Request Modal */}
+      {showRevisionModal && (
+        <div className="fixed inset-0 z-50 bg-neutral-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-neutral-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex justify-between items-start border-b border-neutral-100 pb-3">
+              <div>
+                <h3 className="text-sm font-bold text-neutral-950">
+                  Request Agreement Amendments
+                </h3>
+                <p className="text-xs text-neutral-500 mt-0.5">
+                  Signatory: {verifiedParty?.name} ({verifiedParty?.organization || verifiedParty?.role})
+                </p>
+              </div>
+              <button
+                onClick={() => setShowRevisionModal(false)}
+                className="text-xs text-neutral-400 hover:text-neutral-700"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <form onSubmit={handleRequestRevision} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-neutral-700 mb-1">
+                  Revision Comments & Requested Changes *
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={revisionNotes}
+                  onChange={(e) => setRevisionNotes(e.target.value)}
+                  placeholder="Detail clauses that require modification, commercial adjustments, or legal clarifications..."
+                  className="w-full px-3 py-2 text-xs border border-neutral-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-neutral-900 leading-relaxed"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-neutral-100">
+                <button
+                  type="button"
+                  onClick={() => setShowRevisionModal(false)}
+                  className="px-3.5 py-2 rounded-lg border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submittingRevision}
+                  className="px-4 py-2 rounded-lg bg-neutral-900 text-white text-xs font-bold hover:bg-neutral-800 disabled:opacity-50 flex items-center gap-1.5 shadow-sm"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{submittingRevision ? 'Submitting...' : 'Submit Revision Request'}</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
