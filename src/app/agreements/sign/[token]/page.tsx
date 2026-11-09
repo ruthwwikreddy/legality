@@ -420,48 +420,92 @@ export default function AgreementSignPage() {
               </div>
             </div>
 
-            {/* Document Clauses Reader */}
-            <div className="bg-white border border-neutral-200 rounded-xl p-8 sm:p-12 shadow-sm space-y-6">
-              <div className="border-b border-neutral-200 pb-4 text-center">
-                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400">
-                  LEGALITY PLATFORM · IT ACT 2000 SECTION 10A EXECUTABLE DOCUMENT
-                </span>
-                <h2 className="text-xl font-bold uppercase tracking-wide text-neutral-900 mt-2 font-serif">
-                  {agreement.title}
-                </h2>
+            {/* Document Clauses Reader - Executive Paper Aesthetic */}
+            <div className="document-paper border border-neutral-300/80 rounded-2xl p-8 sm:p-12 md:p-16 shadow-[0_4px_24px_rgba(0,0,0,0.04)] space-y-8 relative">
+              <div className="flex items-center justify-between border-b border-neutral-200 pb-5">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-neutral-900 text-white flex items-center justify-center font-bold text-xs">
+                    §
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-neutral-500 block">
+                      LEGALITY LEGAL ENGINES · IT ACT 2000 SEC. 10A
+                    </span>
+                    <span className="text-xs font-semibold text-neutral-900">
+                      Executed Document Counterpart · REF: {agreement.trackingNumber}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right hidden sm:block">
+                  <span className="px-2.5 py-1 rounded bg-neutral-100 text-neutral-800 text-[10px] font-mono font-bold">
+                    OFFICIAL COUNTERPART
+                  </span>
+                </div>
               </div>
 
-              <div className="prose prose-sm max-w-none text-neutral-800 leading-relaxed font-serif whitespace-pre-wrap text-sm">
+              <div className="text-center max-w-2xl mx-auto space-y-2 pt-2">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-400">
+                  FORMAL INSTRUMENT OF AGREEMENT
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-wide text-neutral-950 font-serif">
+                  {agreement.title}
+                </h2>
+                <div className="h-0.5 w-16 bg-neutral-900 mx-auto mt-3"></div>
+              </div>
+
+              <div className="prose prose-sm max-w-none text-neutral-900 leading-relaxed font-serif whitespace-pre-wrap text-[14px] sm:text-[15px] pt-4 border-t border-neutral-100">
                 {agreement.content}
               </div>
 
               {/* Execution Signatures Table at Bottom */}
-              <div className="pt-8 border-t border-neutral-300 space-y-4 font-sans">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
-                  Signatures & Counterparts
-                </h4>
+              <div className="pt-10 border-t-2 border-neutral-200 space-y-4 font-sans">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+                    Execution Signatures & Attestation
+                  </h4>
+                  <span className="text-[10px] font-mono text-neutral-400">
+                    Tamper-Evident SHA-256 Ledger
+                  </span>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {agreement.parties.map((p: any) => {
                     const isSigned = p.status === 'SIGNED';
                     return (
                       <div
                         key={p.id}
-                        className="p-4 rounded-xl border border-neutral-200 bg-neutral-50 space-y-2"
+                        className={`p-5 rounded-xl border space-y-3 transition ${
+                          isSigned
+                            ? 'border-emerald-300 bg-emerald-50/20'
+                            : 'border-neutral-200 bg-neutral-50/50'
+                        }`}
                       >
-                        <div className="text-xs font-bold text-neutral-900">
-                          For: {p.organization || p.name}
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-700">
+                            For: {p.organization || p.name}
+                          </span>
+                          <span
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                              isSigned
+                                ? 'bg-emerald-100 text-emerald-800'
+                                : 'bg-neutral-200 text-neutral-700'
+                            }`}
+                          >
+                            {p.status}
+                          </span>
                         </div>
-                        <div className="h-16 flex items-center justify-center border-b border-neutral-200 pb-2">
+
+                        <div className="h-20 flex items-center justify-center border-b border-neutral-200 pb-2 bg-white rounded-lg p-2">
                           {isSigned && p.signature ? (
-                            <div className="text-center">
+                            <div className="text-center space-y-1">
                               <span
-                                style={{ fontFamily: 'cursive' }}
-                                className="text-xl text-neutral-900 select-none"
+                                style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic' }}
+                                className="text-2xl text-neutral-950 select-none block"
                               >
                                 {p.signature.signerName}
                               </span>
-                              <span className="text-[9px] text-emerald-700 block font-mono">
-                                [Digital Signature Timestamp Verified]
+                              <span className="text-[9px] text-emerald-700 block font-mono font-semibold">
+                                ✓ Certified Digital Signature · {new Date(p.signature.signedAt).toLocaleDateString()}
                               </span>
                             </div>
                           ) : (
@@ -470,10 +514,11 @@ export default function AgreementSignPage() {
                             </span>
                           )}
                         </div>
-                        <div className="text-[11px] text-neutral-600 space-y-0.5">
-                          <div>Name: {p.name}</div>
-                          <div>Designation: {p.designation || p.role}</div>
-                          <div>Status: <strong className={isSigned ? 'text-emerald-700' : 'text-amber-700'}>{p.status}</strong></div>
+
+                        <div className="text-[11px] text-neutral-600 space-y-0.5 font-mono">
+                          <div>Signer: <strong className="text-neutral-900">{p.name}</strong></div>
+                          <div>Role: {p.designation || p.role}</div>
+                          <div>Email: {p.email}</div>
                         </div>
                       </div>
                     );

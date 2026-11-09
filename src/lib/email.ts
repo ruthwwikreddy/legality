@@ -49,3 +49,4 @@ export async function sendTransactionalEmail({ to, subject, html, text }: SendEm
     return { success: false };
   }
 }
+

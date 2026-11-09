@@ -84,54 +84,124 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 border-b border-neutral-200 bg-[#fbfbfc]">
+      <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 border-b border-neutral-200 bg-[#fbfbfc] bg-grid-pattern overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-300 text-xs font-semibold text-neutral-800 mb-6">
-              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-              <span>Enterprise Legal Operations Platform</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            {/* Left Column: Heading & Value Proposition */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-neutral-300 shadow-xs text-xs font-semibold text-neutral-800">
+                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span>Enterprise Legal Operations Platform</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-neutral-950 leading-[1.12]">
+                Digital Legal Services & Documentation Management
+              </h1>
+
+              <p className="text-base sm:text-lg text-neutral-600 leading-relaxed font-normal max-w-2xl">
+                LEGALITY connects enterprises and founders with certified legal counsel through an entirely paperless workflow: dynamic intake, clause drafting, multi-party electronic execution, and statutory regulatory compliance.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3.5 pt-2">
+                <Link
+                  href="/register"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold bg-neutral-900 text-white hover:bg-neutral-800 transition shadow-sm"
+                >
+                  <span>Request Legal Services</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold border border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-50 transition shadow-xs"
+                >
+                  <span>Explore 4 Practice Verticals</span>
+                </Link>
+              </div>
+
+              <div className="pt-6 border-t border-neutral-200/80 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-neutral-600">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span className="font-medium text-neutral-800">Section 10A IT Act</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-neutral-700 shrink-0" />
+                  <span className="font-medium text-neutral-800">Privileged Vault</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Stamp className="w-4 h-4 text-neutral-700 shrink-0" />
+                  <span className="font-medium text-neutral-800">SHA-256 Audit</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users2 className="w-4 h-4 text-neutral-700 shrink-0" />
+                  <span className="font-medium text-neutral-800">Role Isolation</span>
+                </div>
+              </div>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-neutral-950 leading-[1.15]">
-              Digital Legal Services & Documentation Management
-            </h1>
+            {/* Right Column: High-Fidelity Agreement Execution Card Preview */}
+            <div className="lg:col-span-5">
+              <div className="bg-white rounded-2xl border border-neutral-300 shadow-xl p-6 sm:p-7 space-y-5 relative">
+                {/* Simulated Legal Document Header */}
+                <div className="flex items-start justify-between border-b border-neutral-100 pb-4">
+                  <div>
+                    <span className="font-mono text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">
+                      REF: AGR-2026-0089 · BILATERAL MOU
+                    </span>
+                    <h3 className="font-bold text-neutral-900 text-sm mt-0.5">
+                      Strategic Joint Venture Agreement
+                    </h3>
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-bold text-[10px] border border-emerald-200 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    <span>FULLY SIGNED</span>
+                  </span>
+                </div>
 
-            <p className="mt-5 text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
-              LEGALITY connects clients and enterprises with dedicated legal counsel through an entirely digitized workflow: service requests, document intake, clause drafting, multi-party agreement signing, and statutory compliance tracking.
-            </p>
+                {/* Signatories Execution Preview */}
+                <div className="space-y-3">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">
+                    Verified Execution Status
+                  </span>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link
-                href="/register"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold bg-neutral-900 text-white hover:bg-neutral-800 transition shadow-sm"
-              >
-                <span>Request Legal Services</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold border border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-50 transition"
-              >
-                <span>Client & Staff Login</span>
-              </Link>
-            </div>
+                  {/* Party 1 */}
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-200 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="font-semibold text-neutral-900">TechCorp Solutions Ltd</div>
+                      <div className="text-[11px] text-neutral-500 font-mono">Rajesh Sharma (MD)</div>
+                    </div>
+                    <span className="text-emerald-700 font-mono font-semibold text-[11px] flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Signed</span>
+                    </span>
+                  </div>
 
-            <div className="mt-10 pt-8 border-t border-neutral-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-neutral-600">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>IT Act 2000 Section 10A</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-neutral-700 shrink-0" />
-                <span>Privileged Client Data</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Stamp className="w-4 h-4 text-neutral-700 shrink-0" />
-                <span>SHA-256 Audit Trail</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users2 className="w-4 h-4 text-neutral-700 shrink-0" />
-                <span>Role-Based Separation</span>
+                  {/* Party 2 */}
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-200 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="font-semibold text-neutral-900">Innovate BioLabs Pvt Ltd</div>
+                      <div className="text-[11px] text-neutral-500 font-mono">Dr. Priya Nambiar (Director)</div>
+                    </div>
+                    <span className="text-emerald-700 font-mono font-semibold text-[11px] flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Signed</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Cryptographic Hash Certificate Box */}
+                <div className="p-3 rounded-lg bg-neutral-900 text-neutral-200 text-[11px] font-mono space-y-1">
+                  <div className="flex items-center justify-between text-neutral-400 text-[10px]">
+                    <span>SHA-256 INTEGRITY CHECKSUM</span>
+                    <span className="text-emerald-400">VERIFIED</span>
+                  </div>
+                  <div className="truncate text-white text-[10px]">
+                    e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                  </div>
+                  <div className="text-[9px] text-neutral-400 pt-1 border-t border-neutral-800 flex justify-between">
+                    <span>Section 10A IT Act, 2000 Certified</span>
+                    <span>Multi-Page Audit Log</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
