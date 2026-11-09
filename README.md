@@ -11,23 +11,40 @@
 
 ---
 
+## 🔐 Demo Access Credentials
+
+> **Live demo:** Log in directly at [/login](http://localhost:3000/login) with any of the following seeded accounts. No registration required.
+
+| Role | Portal | Email | Password | Access Level |
+|---|---|---|---|---|
+| **Platform Admin** | `/admin` | `admin@legality.in` | `Admin@123456` | Full system access, all requests, team management |
+| **Senior Counsel** | `/admin` | `counsel@legality.in` | `Admin@123456` | Matter management, agreement drafting, client comms |
+| **Legal Associate** | `/admin` | `associate@legality.in` | `Admin@123456` | Assigned request work, document upload, updates |
+| **Corporate Client** | `/portal` | `client@techcorp.in` | `Client@123456` | TechCorp Solutions — service requests, agreements, compliance |
+| **Startup Client** | `/portal` | `client@innovate.in` | `Client@123456` | Innovate BioLabs — service requests, documents, notifications |
+
+> **Quick start tip:** Sign in as `admin@legality.in` to see the full administrative dashboard, then open an incognito window and log in as `client@techcorp.in` to see the client portal simultaneously.
+
+---
+
 ## Table of Contents
 
-1. [Executive Overview](#executive-overview)
-2. [Core Legal Practice Verticals](#core-legal-practice-verticals)
-3. [Three-Tier Role-Based Architecture](#three-tier-role-based-architecture)
-4. [MOU & Agreement Digital Signing Engine](#mou--agreement-digital-signing-engine)
-5. [Complete Feature Matrix](#complete-feature-matrix)
-6. [Technology Stack](#technology-stack)
-7. [Database Architecture & Data Models](#database-architecture--data-models)
-8. [Security & Privileged Data Governance](#security--privileged-data-governance)
-9. [Full SEO & Structured Data Architecture](#full-seo--structured-data-architecture)
-10. [Local Development & Setup](#local-development--setup)
-11. [Environment Variables](#environment-variables)
-12. [Seeded Accounts & Test Credentials](#seeded-accounts--test-credentials)
-13. [REST API Endpoints Reference](#rest-api-endpoints-reference)
-14. [Production Deployment (Vercel & Cloud)](#production-deployment-vercel--cloud)
-15. [Regulatory Compliance Disclaimers](#regulatory-compliance-disclaimers)
+1. [🔐 Demo Access Credentials](#-demo-access-credentials)
+2. [Executive Overview](#executive-overview)
+3. [Core Legal Practice Verticals](#core-legal-practice-verticals)
+4. [Three-Tier Role-Based Architecture](#three-tier-role-based-architecture)
+5. [MOU & Agreement Digital Signing Engine](#mou--agreement-digital-signing-engine)
+6. [Complete Feature Matrix](#complete-feature-matrix)
+7. [Technology Stack](#technology-stack)
+8. [Database Architecture & Data Models](#database-architecture--data-models)
+9. [Security & Privileged Data Governance](#security--privileged-data-governance)
+10. [Full SEO & Structured Data Architecture](#full-seo--structured-data-architecture)
+11. [Local Development & Setup](#local-development--setup)
+12. [Environment Variables](#environment-variables)
+13. [Seeded Accounts & Test Credentials](#seeded-accounts--test-credentials)
+14. [REST API Endpoints Reference](#rest-api-endpoints-reference)
+15. [Production Deployment (Vercel & Cloud)](#production-deployment-vercel--cloud)
+16. [Regulatory Compliance Disclaimers](#regulatory-compliance-disclaimers)
 
 ---
 
@@ -283,17 +300,24 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Seeded Accounts & Test Credentials
 
-The database comes pre-seeded with realistic Indian legal personas:
+The database comes pre-seeded with five realistic Indian legal personas covering all three roles:
 
-| Role | Designation / Entity | Email Address | Password |
+### Staff & Counsel Accounts (access `/admin`)
+
+| Role | Full Name | Email | Password | Designation |
+|---|---|---|---|---|
+| **Administrator** | Arjun Kapoor | `admin@legality.in` | `Admin@123456` | Managing Partner |
+| **Senior Counsel** | Adv. Ananya Deshmukh | `counsel@legality.in` | `Admin@123456` | Senior Legal Counsel |
+| **Legal Associate** | Rohan Mehra | `associate@legality.in` | `Admin@123456` | Legal Associate |
+
+### Client Accounts (access `/portal`)
+
+| Client Name | Organization | Email | Password |
 |---|---|---|---|
-| **Administrator** | Managing Partner | `admin@legality.in` | `Admin@123456` |
-| **Senior Counsel** | Adv. Ananya Deshmukh | `counsel@legality.in` | `Admin@123456` |
-| **Legal Associate** | Rohan Mehra | `associate@legality.in` | `Admin@123456` |
-| **Client 1** | Rajesh Sharma (TechCorp Solutions) | `client@techcorp.in` | `Client@123456` |
-| **Client 2** | Dr. Priya Nambiar (Innovate BioLabs) | `client@innovate.in` | `Client@123456` |
+| Rajesh Sharma | TechCorp Solutions Pvt. Ltd. | `client@techcorp.in` | `Client@123456` |
+| Dr. Priya Nambiar | Innovate BioLabs LLP | `client@innovate.in` | `Client@123456` |
 
-*New client accounts can also be created anytime through `/register`.*
+New client accounts can be created anytime at `/register`.
 
 ---
 
