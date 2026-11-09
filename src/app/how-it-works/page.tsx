@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import DemoSwitcher from '@/components/DemoSwitcher';
 import {
   FileText,
   Search,
@@ -193,7 +192,6 @@ export default function HowItWorksPage() {
       </section>
 
       <Footer />
-      <DemoSwitcher />
     </div>
   );
 }

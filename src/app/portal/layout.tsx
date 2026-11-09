@@ -1,7 +1,6 @@
 import { getCurrentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import ClientSidebar from '@/components/ClientSidebar';
-import DemoSwitcher from '@/components/DemoSwitcher';
 import Link from 'next/link';
 import { Bell, User } from 'lucide-react';
 import prisma from '@/lib/prisma';
@@ -66,8 +65,6 @@ export default async function ClientPortalLayout({
           {children}
         </main>
       </div>
-
-      <DemoSwitcher />
     </div>
   );
 }

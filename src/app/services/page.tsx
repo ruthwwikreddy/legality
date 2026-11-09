@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import DemoSwitcher from '@/components/DemoSwitcher';
 import {
   FileSignature,
   FileText,
@@ -248,7 +247,6 @@ export default function ServicesPage() {
       </section>
 
       <Footer />
-      <DemoSwitcher />
     </div>
   );
 }

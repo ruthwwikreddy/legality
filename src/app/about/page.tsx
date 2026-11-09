@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import DemoSwitcher from '@/components/DemoSwitcher';
 import {
   Scale,
   Shield,
@@ -170,7 +169,6 @@ export default function AboutPage() {
       </section>
 
       <Footer />
-      <DemoSwitcher />
     </div>
   );
 }

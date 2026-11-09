@@ -17,7 +17,6 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import SignaturePad from '@/components/SignaturePad';
-import DemoSwitcher from '@/components/DemoSwitcher';
 
 export default function AgreementSignPage() {
   const params = useParams();
@@ -491,8 +490,6 @@ export default function AgreementSignPage() {
           </div>
         </div>
       )}
-
-      <DemoSwitcher />
     </div>
   );
 }

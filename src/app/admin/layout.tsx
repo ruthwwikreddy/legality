@@ -1,7 +1,6 @@
 import { getCurrentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import AdminSidebar from '@/components/AdminSidebar';
-import DemoSwitcher from '@/components/DemoSwitcher';
 import Link from 'next/link';
 import { Shield, Bell, User } from 'lucide-react';
 import prisma from '@/lib/prisma';
@@ -61,8 +60,6 @@ export default async function AdminLayout({
           {children}
         </main>
       </div>
-
-      <DemoSwitcher />
     </div>
   );
 }

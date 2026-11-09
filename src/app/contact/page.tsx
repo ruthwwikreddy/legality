@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import DemoSwitcher from '@/components/DemoSwitcher';
 import {
   Mail,
   Phone,
@@ -280,7 +279,6 @@ export default function ContactPage() {
       </section>
 
       <Footer />
-      <DemoSwitcher />
     </div>
   );
 }
